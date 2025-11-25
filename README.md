@@ -1,318 +1,163 @@
-# Restaurant Booking System
+# Project Title: Restaurant Booking System
 
-A full-stack restaurant reservation system built with Express.js and MongoDB, featuring user authentication, reservation management, and a RESTful API.
+## Group information
+Group [13]  
 
-## Features
+[CHEN Jiawei] [12790696] [s1279069@live.hkmu.edu.hk]  
 
-- **User Authentication**
-  - User registration with email validation
-  - Secure login with password hashing (bcrypt)
-  - Session-based authentication using cookie-session
-  - Automatic logout and session management
+[Student Name] [Student ID] [Email]  
 
-- **Reservation Management**
-  - Create, view, edit, and cancel reservations
-  - Branch selection (Ho Man Tin Branch, Mong Kok Branch)
-  - Date and time selection with calendar view
-  - Guest count management (adults and children)
-  - Reservation status tracking (active/cancelled)
-  - Cooldown period to prevent frequent cancellations
+[Student Name] [Student ID] [Email]  
 
-- **RESTful API**
-  - Complete CRUD operations for reservations
-  - Query filtering by user, branch, date, and status
-  - JSON responses for easy integration
 
-- **User Interface**
-  - Responsive web interface using EJS templates
-  - Calendar view for date selection
-  - Dashboard for viewing all reservations
-  - Intuitive forms for creating and editing reservations
+# Project Information
+A full-stack restaurant reservation system allows users to manage dining bookings across multiple branches.
 
-## Tech Stack
+It provides: 
+- An interface open to public users
+  - View restaurant availability and login.
+- An interface accessible to logged-in users
+  - Perform semantic searches on availability.
+  - Create, view, edit, and cancel reservations.
+  - Manage guest counts (adults and children) and select specific branches.
+- RESTful APIs
+  - Public APIs for performing complete CRUD operations on reservations.
+  - Filtering capabilities for integration with external systems.
 
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB with Mongoose ODM
-- **Authentication**: cookie-session, bcrypt
-- **Template Engine**: EJS
-- **Environment**: dotenv for configuration
+More details of each of the functionalities are introduced below. 
 
-## Prerequisites
+# Project File Introduction
+Here’s a brief overview of the important files in this project:
 
-- Node.js (v14 or higher)
-- MongoDB (local or cloud instance)
-- npm or yarn
+## `server.js`
+The server.js file is the main entry point for the Express server. It configures the MongoDB connection using Mongoose, sets up session management via `cookie-session`, initializes the EJS template engine, and defines the middleware for parsing requests. It aggregates routes for authentication, web interface, and API endpoints.
 
-## Installation
+## `package.json`
+- `bcrypt`: ^5.0.0
+- `cookie-session`: ^1.4.0
+- `dotenv`: ^8.2.0
+- `ejs`: ^3.1.6
+- `express`: ^4.17.1
+- `mongoose`: ^5.12.3
+- `nodemon`: ^2.0.7
 
-1. **Clone the repository** (if applicable) or navigate to the project directory:
-```bash
-cd /path/to/project
-```
+## `models`
+- `User.js`
+  - Defines the User schema with name, contact, email, and hashed password.
+  - Includes tracking for deletion history and cooldown periods.
+- `Reservation.js`
+  - Defines the Reservation schema linking to Users.
+  - Stores branch, date, time, guest counts, and status (active/cancelled).
 
-2. **Install dependencies**:
-```bash
-npm install
-```
+## `views`
+- `login.ejs`
+- `register.ejs`
+- `home.ejs`
+- `dashboard.ejs`
+- `create-reservation.ejs`
+- `edit-reservation.ejs`
 
-3. **Configure environment variables** (optional):
-   Create a `.env` file in the root directory:
-```env
-PORT=3000
-MONGODB_URI=your_mongodb_connection_string
-SESSION_SECRET=your_secret_key_here
-```
+## `public`
+- `style.css`
+  - Contains styling for the responsive web interface.
 
-   If no `.env` file is provided, the application will use default values:
-   - Port: 3000
-   - MongoDB URI: Default connection string (configured in server.js)
-   - Session Secret: 'your-secret-key-change-in-production'
 
-4. **Start the server**:
-```bash
-npm start
-```
+# Cloud URL
+The project is hosted on GitHub:  
+[https://github.com/Shaw552/COMPS381F-restaurant-Booking]  
 
-   Or use development mode with auto-reload:
-```bash
-npm run dev
-```
+**Note:**
+To run the application locally, clone the repository, install dependencies, and start the server. Access the application at `http://localhost:3000`.
 
-5. **Access the application**:
-   Open your browser and navigate to `http://localhost:3000`
+# Operation Guides
 
-## Project Structure
+## The use of Login/Logout Pages
 
-```
-.
-├── server.js                 # Main Express server file
-├── package.json              # Dependencies and scripts
-├── .env                      # Environment variables (optional)
-├── models/                   # Mongoose data models
-│   ├── User.js              # User model with password hashing
-│   └── Reservation.js       # Reservation model
-├── routes/                   # Route handlers
-│   ├── auth.js              # Authentication routes (login, register, logout)
-│   ├── reservations.js      # Web routes for reservation management
-│   └── api.js               # RESTful API endpoints
-├── views/                    # EJS templates
-│   ├── login.ejs            # Login page
-│   ├── register.ejs         # Registration page
-│   ├── home.ejs             # Home page with branch selection
-│   ├── dashboard.ejs        # Reservation list/dashboard
-│   ├── create-reservation.ejs  # Create reservation form
-│   └── edit-reservation.ejs    # Edit reservation form
-└── public/                   # Static files
-    └── style.css            # CSS styles
-```
+### Valid Login Information
+For demonstration purposes, you can register a new account or use an existing one if seeded:
 
-## API Documentation
+- **User Account**
+  - **Email**: [user@example.com]
+  - **Password**: [password]
 
-### Web Routes
+### Sign In Steps
+1. Navigate to the login page by accessing `/login` or clicking the login link on the home page.
+2. Enter your registered email address and password in the respective fields.
+3. Click the `Submit` button to log in.
+4. If the information is correct, you will be redirected to the dashboard or home page.
 
-#### Authentication
-- `GET /login` - Display login page
-- `POST /login` - Process login (email, password)
-- `GET /register` - Display registration page
-- `POST /register` - Process registration (name, contact, email, password)
-- `GET /logout` - Logout and clear session
+### Registration Steps
+1. Navigate to the registration page via `/register`.
+2. Enter your Name, Contact Number, Email, and Password.
+3. Submit the form to create a new account.
 
-#### Reservations (Web Interface)
-- `GET /` - Home page (redirects to login if not authenticated)
-- `GET /reservations/list` - View all active reservations for logged-in user
-- `GET /reservations/create?branch=<branch_name>` - Create reservation page
-- `POST /reservations/create` - Process reservation creation
-- `GET /reservations/edit/:id` - Edit reservation page
-- `POST /reservations/edit/:id` - Update reservation
-- `POST /reservations/delete/:id` - Delete/cancel reservation
+### Logout Steps
+1. To log out, click the `Logout` link/button in the navigation bar.
+2. You will be logged out and the session will be cleared.
 
-### RESTful API Endpoints
+
+## The use of CRUD web services on the user interface
+
+### For visitors
+1. **Home**: Visitors can view the Home page (`/`) but will be redirected to Login for specific actions.
+2. **Login/Register**: Access to authentication forms.
+
+### For logged in users
+1. **Branch Selection (Read)**: On the Home page, select a branch (e.g., "Ho Man Tin Branch" or "Mong Kok Branch").
+2. **Create Reservation (Create)**: 
+   - Select a date using the calendar view.
+   - Choose a time slot.
+   - Enter the number of adults and children.
+   - Submit the form to book a table.
+3. **Dashboard (Read)**: View a list of all active reservations at `/reservations/list`.
+4. **Edit Reservation (Update)**: 
+   - Click on an existing reservation in the dashboard.
+   - Modify details such as time, date, or guest count.
+   - Save changes to update the booking.
+5. **Cancel Reservation (Delete)**: 
+   - Use the delete/cancel option on a reservation.
+   - *Note*: Frequent cancellations may trigger a cooldown period.
+
+### Login Page
+1. **Submit**: Use the `Submit` button to verify credentials.
+2. **Register**: Link to the registration page for new users.
+
+### Dashboard Page
+1. **Edit**: Navigate to the edit form for a specific reservation.
+2. **Delete**: Cancel a specific reservation.
+
+
+## The use of RESTful CRUD services
 
 All API endpoints are prefixed with `/api`.
 
-#### Get All Reservations
-```
-GET /api/reservations
-```
-
-**Query Parameters:**
-- `userId` (optional) - Filter by user ID
-- `branch` (optional) - Filter by branch name
-- `date` (optional) - Filter by date (YYYY-MM-DD format)
-- `status` (optional) - Filter by status ('active' or 'cancelled')
-
-**Example:**
-```bash
-GET /api/reservations?branch=Ho Man Tin Branch&status=active
-```
-
-**Response:**
-```json
-[
-  {
-    "_id": "...",
-    "userId": {
-      "_id": "...",
-      "name": "John Doe",
-      "contact": "12345678",
-      "email": "john@example.com"
-    },
-    "branch": "Ho Man Tin Branch",
-    "date": "2025-11-15T00:00:00.000Z",
-    "time": "18:00",
-    "adults": 2,
-    "children": 1,
-    "status": "active",
-    "createdAt": "2025-11-01T10:00:00.000Z"
-  }
-]
-```
-
-#### Get Single Reservation
-```
-GET /api/reservations/:id
-```
-
-**Response:**
-```json
-{
-  "_id": "...",
-  "userId": {...},
-  "branch": "Mong Kok Branch",
-  "date": "2025-11-15T00:00:00.000Z",
-  "time": "19:30",
-  "adults": 4,
-  "children": 0,
-  "status": "active",
-  "createdAt": "2025-11-01T10:00:00.000Z"
-}
-```
-
-#### Create Reservation
-```
+### 1. Create Reservation
+**Endpoint:**
 POST /api/reservations
-```
 
-**Request Body:**
-```json
-{
-  "userId": "user_id_here",
-  "branch": "Ho Man Tin Branch",
-  "date": "2025-11-15",
-  "time": "18:00",
-  "adults": 2,
-  "children": 1
-}
-```
+**Description:**
+Creates a new reservation for a user.
 
-**Response:** 201 Created with reservation object
+**Parameters:**
+1. **URL Parameter:**
+   - None
+2. **Request Body (JSON):**
+   - `userId` (required): The ID of the user making the booking.
+   - `branch` (required): "Ho Man Tin Branch" or "Mong Kok Branch".
+   - `date` (required): Date in YYYY-MM-DD format.
+   - `time` (required): Time string (e.g., "18:00").
+   - `adults` (required): Number of adults (min 1).
+   - `children` (required): Number of children (default 0).
 
-#### Update Reservation
-```
-PUT /api/reservations/:id
-```
-
-**Request Body:** (all fields optional)
-```json
-{
-  "branch": "Mong Kok Branch",
-  "date": "2025-11-16",
-  "time": "19:00",
-  "adults": 3,
-  "children": 0,
-  "status": "cancelled"
-}
-```
-
-**Response:** Updated reservation object
-
-#### Delete Reservation
-```
-DELETE /api/reservations/:id
-```
-
-**Response:**
-```json
-{
-  "message": "Reservation deleted",
-  "reservation": {...}
-}
-```
-
-## Data Models
-
-### User Model
-```javascript
-{
-  name: String (required),
-  contact: String (required),
-  email: String (required, unique),
-  password: String (required, hashed),
-  createdAt: Date,
-  consecutiveDeletions: Number,
-  lastDeletionTime: Date,
-  cooldownUntil: Date
-}
-```
-
-### Reservation Model
-```javascript
-{
-  userId: ObjectId (required, ref: User),
-  branch: String (required, enum: ['Ho Man Tin Branch', 'Mong Kok Branch']),
-  date: Date (required),
-  time: String (required),
-  adults: Number (required, min: 1),
-  children: Number (required, min: 0, default: 0),
-  status: String (enum: ['active', 'cancelled'], default: 'active'),
-  createdAt: Date
-}
-```
-
-## Usage Guide
-
-1. **Registration**: First-time users need to register with their name, contact number, email, and password.
-
-2. **Login**: Use your email and password to log in.
-
-3. **Create Reservation**:
-   - Select a branch from the home page
-   - Choose a date using the calendar view
-   - Select a time slot
-   - Enter the number of adults and children
-   - Submit the reservation
-
-4. **View Reservations**: Access your dashboard to see all active reservations.
-
-5. **Edit Reservation**: Click on any reservation to modify details (branch, date, time, guest count).
-
-6. **Cancel Reservation**: Delete a reservation from the dashboard. Note: Frequent cancellations may trigger a cooldown period.
-
-## Security Features
-
-- Password hashing using bcrypt (10 rounds)
-- Session-based authentication
-- Input validation and sanitization
-- Cooldown mechanism to prevent abuse
-- Secure session management with cookie-session
-
-## Development
-
-### Running in Development Mode
-```bash
-npm run dev
-```
-This uses `nodemon` to automatically restart the server when files change.
-
-### Environment Variables
-- `PORT` - Server port (default: 3000)
-- `MONGODB_URI` - MongoDB connection string
-- `SESSION_SECRET` - Secret key for session encryption
-
-## License
-
-This project is open source and available for use.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+**Example Usage:**
+   ```bash
+   curl -X POST http://localhost:3000/api/reservations \
+   -H "Content-Type: application/json" \
+   -d '{
+      "userId": "user_id_here",
+      "branch": "Ho Man Tin Branch",
+      "date": "2025-11-15",
+      "time": "18:00",
+      "adults": 2,
+      "children": 1
+   }'
