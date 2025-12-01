@@ -163,3 +163,79 @@ Creates a new reservation for a user.
       "adults": 2,
       "children": 1
    }'
+### 2. Read Reservations (List)
+**Endpoint:**
+GET /api/reservations
+
+**Description:**
+Retrieves reservations. Optional query parameters let you narrow the list for integrations or dashboards.
+
+**Query Parameters:**
+- `userId` (optional): Filter by owning user.
+- `branch` (optional): Filter by branch name.
+- `date` (optional): Filter by a single calendar date (YYYY-MM-DD).
+- `status` (optional): Filter by reservation status such as `active` or `cancelled`.
+
+**Example Usage:**
+  ```bash
+  curl "http://localhost:3000/api/reservations?branch=Ho%20Man%20Tin%20Branch&date=2025-12-24&status=active"
+  ```
+
+### 3. Read Reservation (Single)
+**Endpoint:**
+GET /api/reservations/:id
+
+**Description:**
+Fetches a single reservation document by its MongoDB identifier, including basic user information.
+
+**URL Parameters:**
+- `id` (required): Reservation ID.
+
+**Example Usage:**
+  ```bash
+  curl http://localhost:3000/api/reservations/6761e6e95b0a4c001295b5c2
+  ```
+
+### 4. Update Reservation
+**Endpoint:**
+PUT /api/reservations/:id
+
+**Description:**
+Updates an existing reservation. You may send only the fields that need to change. Server-side validation still applies (e.g., total guests ≤ 12 and December 2025 window).
+
+**URL Parameters:**
+- `id` (required): Reservation ID.
+
+**Request Body (JSON):**
+- `branch` (optional)
+- `date` (optional, YYYY-MM-DD)
+- `time` (optional)
+- `adults` (optional)
+- `children` (optional)
+- `status` (optional): Set to `active` or `cancelled` for workflow automation.
+
+**Example Usage:**
+  ```bash
+  curl -X PUT http://localhost:3000/api/reservations/6761e6e95b0a4c001295b5c2 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "time": "19:30",
+    "adults": 4,
+    "children": 2
+  }'
+  ```
+
+### 5. Delete Reservation
+**Endpoint:**
+DELETE /api/reservations/:id
+
+**Description:**
+Permanently removes a reservation document. Use this with caution—UI workflows usually prefer setting the status to `cancelled`.
+
+**URL Parameters:**
+- `id` (required): Reservation ID to delete.
+
+**Example Usage:**
+  ```bash
+  curl -X DELETE http://localhost:3000/api/reservations/6761e6e95b0a4c001295b5c2
+  ```
