@@ -5,9 +5,11 @@ Group [13]
 
 [CHEN Jiawei] [12790696] [s1279069@live.hkmu.edu.hk]  
 
-[Student Name] [Student ID] [Email]  
+[ZHAO Yihang] [13076843] [s1307684@live.hkmu.edu.hk]  
 
-[Student Name] [Student ID] [Email]  
+[FAN Yutao] [13024637] [s1302463@live.hkmu.edu.hk]  
+
+[WANG Zhou] [12811395] [s1281139@live.hkmu.edu.hk] 
 
 
 # Project Information
@@ -78,7 +80,7 @@ For demonstration purposes, you can register a new account or use an existing on
 
 - **User Account**
   - **Email**: [user@example.com]
-  - **Password**: [password]
+  - **Password**: []
 
 ### Sign In Steps
 1. Navigate to the login page by accessing `/login` or clicking the login link on the home page.
