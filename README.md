@@ -163,7 +163,7 @@ Creates a new reservation for a user.
       "adults": 2,
       "children": 1
    }'
-
+   ``` 
 ### 2. Read Reservations (List)
 **Endpoint:**
 GET /api/reservations
